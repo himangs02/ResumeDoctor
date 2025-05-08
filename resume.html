@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-indigo-700">ResumeBuilder Pro</h1>
+            <p class="text-gray-600">Create a professional resume in minutes</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Left Side - Form -->
+            <div class="lg:w-1/2 bg-white p-6 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Resume Details</h2>
+                    <div class="flex gap-2">
+                        <button id="analyzeBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                            <i class="fas fa-magic mr-2"></i>Analyze Resume
+                        </button>
+                        <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                            <i class="fas fa-download mr-2"></i>Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Suggestions Panel (Initially hidden) -->
+                <div id="suggestionsPanel" class="hidden mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-lg font-medium text-blue-800 flex items-center">
+                            <i class="fas fa-robot mr-2 text-blue-600"></i> AI Suggestions
+                        </h3>
+                        <button id="closeSuggestions" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded border border-blue-100">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-yellow-500 mr-2">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Consider adding more action verbs to your work experience</p>
+                                    <div class="mt-1 flex gap-2">
+                                        <button class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200">
+                                            Show Examples
+                                        </button>
+                                        <button class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200">
+                                            Apply Fix
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded border border-blue-100">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-yellow-500 mr-2">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Your skills section could better match current industry keywords</p>
+                                    <div class="mt-1 flex gap-2">
+                                        <button class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200">
+                                            Show Alternatives
+                                        </button>
+                                        <button class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200">
+                                            Optimize Skills
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 rounded border border-blue-100">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-yellow-500 mr-2">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Consider quantifying more achievements with metrics</p>
+                                    <div class="mt-1 flex gap-2">
+                                        <button class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200">
+                                            View Tips
+                                        </button>
+                                        <button class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200">
+                                            Auto-Enhance
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button id="applyAllBtn" class="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+                            <i class="fas fa-check-circle mr-1"></i> Apply All Suggestions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-medium text-gray-700 mb-4 flex items-center">
+                        <i class="fas fa-user mr-2 text-indigo-500"></i> Personal Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Software Engineer">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="(123) 456-7890">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="123 Main St, City, Country">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Experience -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-briefcase mr-2 text-indigo-500"></i> Work Experience
+                        </h3>
+                        <button class="text-indigo-600 hover:text-indigo-800">
+                            <i class="fas fa-plus mr-1"></i> Add
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-md p-4">
+                            <div class="flex justify-between">
+                                <div>
+                                    <input type="text" class="font-medium text-gray-800 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="Job Title" value="Senior Developer">
+                                </div>
+                                <button class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="text-sm text-gray-600 mt-1 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500 w-full" placeholder="Company Name" value="Tech Solutions Inc.">
+                            <div class="flex flex-wrap gap-4 mt-2">
+                                <input type="text" class="text-sm text-gray-500 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="Start Date" value="Jan 2020">
+                                <input type="text" class="text-sm text-gray-500 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="End Date" value="Present">
+                            </div>
+                            <textarea class="mt-2 w-full text-sm text-gray-700 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500" rows="3" placeholder="Job description and achievements">Led a team of 5 developers to deliver complex projects. Improved system performance by 40%.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-graduation-cap mr-2 text-indigo-500"></i> Education
+                        </h3>
+                        <button class="text-indigo-600 hover:text-indigo-800">
+                            <i class="fas fa-plus mr-1"></i> Add
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-md p-4">
+                            <div class="flex justify-between">
+                                <div>
+                                    <input type="text" class="font-medium text-gray-800 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="Degree" value="Master of Computer Science">
+                                </div>
+                                <button class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="text-sm text-gray-600 mt-1 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500 w-full" placeholder="University" value="Stanford University">
+                            <div class="flex gap-4 mt-2">
+                                <input type="text" class="text-sm text-gray-500 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="Start Date" value="2016">
+                                <input type="text" class="text-sm text-gray-500 bg-transparent border-b border-dashed border-gray-300 focus:outline-none focus:border-indigo-500" placeholder="End Date" value="2018">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-tools mr-2 text-indigo-500"></i> Skills
+                        </h3>
+                        <button class="text-indigo-600 hover:text-indigo-800">
+                            <i class="fas fa-plus mr-1"></i> Add
+                        </button>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <div class="relative">
+                            <input type="text" class="pl-3 pr-8 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm" value="JavaScript">
+                            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-indigo-600 hover:text-indigo-900 text-xs">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="relative">
+                            <input type="text" class="pl-3 pr-8 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm" value="React">
+                            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-indigo-600 hover:text-indigo-900 text-xs">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="relative">
+                            <input type="text" class="pl-3 pr-8 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm" placeholder="Add skill">
+                            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-indigo-600 hover:text-indigo-900 text-xs">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Preview -->
+            <div class="lg:w-1/2">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-center mb-2 text-gray-800">Resume Preview</h2>
+                    <div class="border-t-4 border-indigo-600 pt-6">
+                        <!-- Header -->
+                        <div class="text-center mb-8">
+                            <h1 class="text-3xl font-bold text-gray-800">John Doe</h1>
+                            <p class="text-lg text-indigo-600 font-medium">Senior Software Engineer</p>
+                            <div class="flex justify-center space-x-4 mt-2 text-sm text-gray-600">
+                                <span><i class="fas fa-envelope mr-1"></i> john@example.com</span>
+                                <span><i class="fas fa-phone mr-1"></i> (123) 456-7890</span>
+                                <span><i class="fas fa-map-marker-alt mr-1"></i> San Francisco, CA</span>
+                            </div>
+                        </div>
+
+                        <!-- Work Experience -->
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold border-b border-gray-200 pb-1 mb-3 text-gray-700 flex items-center">
+                                <i class="fas fa-briefcase mr-2 text-indigo-500"></i> Work Experience
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between">
+                                        <h4 class="font-medium text-gray-800">Senior Developer</h4>
+                                        <span class="text-sm text-gray-500">Jan 2020 - Present</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 italic">Tech Solutions Inc.</p>
+                                    <ul class="mt-2 list-disc list-inside text-sm text-gray-700 space-y-1">
+                                        <li>Led a team of 5 developers to deliver complex projects</li>
+                                        <li>Improved system performance by 40% through optimization</li>
+                                        <li>Implemented CI/CD pipeline reducing deployment time by 30%</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Education -->
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold border-b border-gray-200 pb-1 mb-3 text-gray-700 flex items-center">
+                                <i class="fas fa-graduation-cap mr-2 text-indigo-500"></i> Education
+                            </h3>
+                            <div>
+                                <div class="flex justify-between">
+                                    <h4 class="font-medium text-gray-800">Master of Computer Science</h4>
+                                    <span class="text-sm text-gray-500">2016 - 2018</span>
+                                </div>
+                                <p class="text-sm text-gray-600 italic">Stanford University</p>
+                            </div>
+                        </div>
+
+                        <!-- Skills -->
+                        <div>
+                            <h3 class="text-xl font-semibold border-b border-gray-200 pb-1 mb-3 text-gray-700 flex items-center">
+                                <i class="fas fa-tools mr-2 text-indigo-500"></i> Skills
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">JavaScript</span>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">React</span>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">Node.js</span>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">Python</span>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">SQL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Template Selection -->
+                <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-medium text-gray-700 mb-4">Choose a Template</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="border-2 border-indigo-500 rounded-md overflow-hidden">
+                            <div class="h-32 bg-indigo-100 flex items-center justify-center">
+                                <span class="text-indigo-500 font-medium">Modern</span>
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 rounded-md overflow-hidden">
+                            <div class="h-32 bg-gray-100 flex items-center justify-center">
+                                <span class="text-gray-500">Professional</span>
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 rounded-md overflow-hidden">
+                            <div class="h-32 bg-gray-100 flex items-center justify-center">
+                                <span class="text-gray-500">Creative</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle AI suggestions panel
+        document.getElementById('analyzeBtn').addEventListener('click', function() {
+            document.getElementById('suggestionsPanel').classList.remove('hidden');
+            // In a real app, this would call an API to analyze the resume
+            // and return suggestions
+        });
+
+        document.getElementById('closeSuggestions').addEventListener('click', function() {
+            document.getElementById('suggestionsPanel').classList.add('hidden');
+        });
+
+        // Apply all suggestions
+        document.getElementById('applyAllBtn').addEventListener('click', function() {
+            alert('All AI suggestions have been applied to your resume!');
+            document.getElementById('suggestionsPanel').classList.add('hidden');
+            
+            // In a real app, this would update the resume fields with the improved content
+            // For demonstration, we'll just update one field
+            const jobDesc = document.querySelector('textarea');
+            if (jobDesc) {
+                jobDesc.value = "• Spearheaded a team of 5 developers to successfully deliver 12+ complex projects on schedule\n" +
+                                "• Optimized system architecture, resulting in a 40% performance improvement\n" +
+                                "• Engineered CI/CD pipeline that reduced deployment time by 30%";
+            }
+        });
+
+        // Sample action for individual suggestion buttons
+        document.querySelectorAll('.bg-white.p-3.rounded button.bg-green-100').forEach(button => {
+            button.addEventListener('click', function() {
+                const suggestionCard = this.closest('.bg-white.p-3.rounded');
+                suggestionCard.classList.add('border-green-300', 'bg-green-50');
+                suggestionCard.querySelector('.fa-lightbulb').classList.remove('text-yellow-500');
+                suggestionCard.querySelector('.fa-lightbulb').classList.add('text-green-500');
+                
+                // Change button to show it's been applied
+                this.innerHTML = '<i class="fas fa-check mr-1"></i> Applied';
+                this.classList.remove('bg-green-100', 'text-green-800', 'hover:bg-green-200');
+                this.classList.add('bg-green-200', 'text-green-900');
+                
+                // In a real app, this would apply the specific suggestion to the resume
+            });
+        });
+    </script>
+</body>
+</html>
